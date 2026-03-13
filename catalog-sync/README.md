@@ -1,6 +1,6 @@
 # catalog-sync/
 
-Synchronise les contrats de données ([`catalog/`](../catalog/)) vers OpenMetadata, et valide les contrats via `datacontract-cli` contre les données réelles sur Athena.
+Synchronise les contrats de données ([`odcs-contracts/`](../odcs-contracts/)) vers OpenMetadata, et valide les contrats via `datacontract-cli` contre les données réelles sur Athena.
 
 ## Prérequis
 
@@ -24,9 +24,9 @@ Copier `.env.example` en `.env` et renseigner les credentials AWS, puis :
 ```shell
 cd catalog-sync
 source load-env.sh
-uv run datacontract lint ../catalog/odcs.yaml
-uv run datacontract test ../catalog/odcs.yaml
-uv run datacontract export --format html --output datacontract.html ../catalog/odcs.yaml
+uv run datacontract lint ../odcs-contracts/flights.yaml
+uv run datacontract test ../odcs-contracts/flights.yaml
+uv run datacontract export --format html --output datacontract.html ../odcs-contracts/flights.yaml
 ```
 
 > `.env` et `datacontract.html` sont dans le `.gitignore` — ne jamais les commiter.

@@ -8,7 +8,7 @@ Les données de vols NYC 2013 sont stockées dans une table Apache Iceberg sur A
 
 | Dossier | Rôle |
 |---|---|
-| [`catalog/`](catalog/) | Contrats de données ODCS (YAML uniquement) |
+| [`odcs-contracts/`](odcs-contracts/) | Contrats de données ODCS (YAML uniquement) |
 | [`infra/`](infra/) | Infrastructure AWS via Terraform (S3, Glue) |
 | [`ingestion/`](ingestion/) | Chargement de `flights.csv` dans Iceberg/S3 |
 | [`catalog-sync/`](catalog-sync/) | Synchronisation des contrats vers OpenMetadata |

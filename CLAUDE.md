@@ -12,7 +12,7 @@
 
 PoC de standardisation d'accès aux données du domaine via un SDK Python.
 - **Données sources** : `flights.csv` → table Iceberg dans AWS Glue (format Iceberg, stockage S3)
-- **Standard de contrat** : ODCS v3.1.0 (spec `odcs.yaml`)
+- **Standard de contrat** : ODCS v3.1.0 (spec `flights.yaml`)
 - **SDK** : `dataloader.py` — à terme publié comme lib Python
 - **Catalogue de métadonnées** : OpenMetadata (lancé en local via Docker Compose)
 
@@ -34,8 +34,8 @@ PoC de standardisation d'accès aux données du domaine via un SDK Python.
 cfm-dataportal/
 ├── scripts/
 │   └── openmetadata.sh         # Télécharge docker-compose.yml + lance OM en local
-├── catalog/                    # Contrats de données (YAML uniquement)
-│   └── odcs.yaml               # Spec ODCS : schémas, qualité, SLA, owners
+├── odcs-contracts/                    # Contrats de données (YAML uniquement)
+│   └── flights.yaml               # Spec ODCS : schémas, qualité, SLA, owners
 ├── infra/                      # Terraform : S3 + Glue database
 │   ├── main.tf
 │   ├── variables.tf
@@ -60,10 +60,10 @@ cfm-dataportal/
 |---|---|
 | Le SDK / l'API consommateur | `sdk/dataloader.py` |
 | L'ingestion des données | `ingestion/load_flights.py` |
-| Le contrat de données | `catalog/odcs.yaml` |
+| Le contrat de données | `odcs-contracts/flights.yaml` |
 | L'infra AWS | `infra/main.tf`, `infra/variables.tf` |
 | OpenMetadata local | voir Références rapides |
-| Publier dans OpenMetadata | `catalog-sync/publish_to_openmetadata.py`, `catalog/odcs.yaml` |
+| Publier dans OpenMetadata | `catalog-sync/publish_to_openmetadata.py`, `odcs-contracts/flights.yaml` |
 
 ## Conventions d'implémentation
 - OpenMetadata : utiliser `requests` directement (pas `openmetadata-ingestion` SDK)
@@ -81,9 +81,9 @@ docker compose logs -f openmetadata_ingestion
 # Contrats de données (depuis catalog-sync/, après avoir sourcé load-env.sh)
 cd catalog-sync
 source load-env.sh
-uv run datacontract lint ../catalog/odcs.yaml
-uv run datacontract test ../catalog/odcs.yaml
-uv run datacontract export --format html --output datacontract.html ../catalog/odcs.yaml
+uv run datacontract lint ../odcs-contracts/flights.yaml
+uv run datacontract test ../odcs-contracts/flights.yaml
+uv run datacontract export --format html --output datacontract.html ../odcs-contracts/flights.yaml
 
 # Synchronisation vers OpenMetadata (depuis catalog-sync/)
 cd catalog-sync

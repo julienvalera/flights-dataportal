@@ -1,5 +1,5 @@
 """
-Publie le data product "flights" dans OpenMetadata à partir de odcs.yaml.
+Publie le data product "flights" dans OpenMetadata à partir de flights.yaml.
 
 Prérequis : OpenMetadata démarré sur http://localhost:8585
 
@@ -15,7 +15,7 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-ODCS_PATH = Path(__file__).parent.parent / "catalog" / "odcs.yaml"
+ODCS_PATH = Path(__file__).parent.parent / "odcs-contracts" / "flights.yaml"
 OM_BASE = "http://localhost:8585/api/v1"
 OM_EMAIL = "admin@open-metadata.org"
 OM_PASSWORD = "admin"
