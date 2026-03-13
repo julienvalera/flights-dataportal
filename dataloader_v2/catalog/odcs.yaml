@@ -1,0 +1,181 @@
+apiVersion: v3.1.0
+kind: DataContract
+id: flights-data-contract
+name: Flights Data Contract
+version: 1.0.0
+status: draft
+
+team:
+  name: Data Engineering
+
+description:
+  purpose: Centraliser les données de vols commerciaux au départ des aéroports de New York (JFK, LGA, EWR) pour l'année 2013.
+  usage: Analyse des retards, des performances par compagnie aérienne et des flux de trafic aérien.
+  limitations: Données limitées à l'année 2013. Les valeurs dep_time, arr_time et dep_delay peuvent être nulles pour les vols annulés.
+
+servers:
+  - server: athena
+    type: athena
+    catalog: awsdatacatalog
+    schema: flights_db
+    regionName: eu-west-1
+    stagingDir: s3://cfm-datalake-iceberg/athena-results/
+
+schema:
+  - name: flights
+    description: Table des vols au départ de New York en 2013, partitionnée par année et mois.
+    properties:
+      - name: id
+        logicalType: integer
+        physicalType: bigint
+        nullable: false
+        unique: true
+        description: Identifiant unique de la ligne.
+        logicalTypeOptions:
+          minimum: 0
+      - name: year
+        logicalType: integer
+        physicalType: bigint
+        nullable: false
+        description: Année du vol.
+        logicalTypeOptions:
+          minimum: 2013
+          maximum: 2013
+      - name: month
+        logicalType: integer
+        physicalType: bigint
+        nullable: false
+        description: Mois du vol (1-12).
+        logicalTypeOptions:
+          minimum: 1
+          maximum: 12
+      - name: day
+        logicalType: integer
+        physicalType: bigint
+        nullable: false
+        description: Jour du mois du vol.
+        logicalTypeOptions:
+          minimum: 1
+          maximum: 31
+      - name: dep_time
+        logicalType: number
+        physicalType: double
+        nullable: true
+        description: Heure de départ réelle (format HHMM). Null si le vol est annulé.
+        logicalTypeOptions:
+          minimum: 1
+          maximum: 2400
+      - name: sched_dep_time
+        logicalType: integer
+        physicalType: bigint
+        nullable: false
+        description: Heure de départ planifiée (format HHMM).
+        logicalTypeOptions:
+          minimum: 1
+          maximum: 2359
+      - name: dep_delay
+        logicalType: number
+        physicalType: double
+        nullable: true
+        description: Retard au départ en minutes. Valeur négative = avance.
+      - name: arr_time
+        logicalType: number
+        physicalType: double
+        nullable: true
+        description: Heure d'arrivée réelle (format HHMM). Null si le vol est annulé.
+        logicalTypeOptions:
+          minimum: 1
+          maximum: 2400
+      - name: sched_arr_time
+        logicalType: integer
+        physicalType: bigint
+        nullable: false
+        description: Heure d'arrivée planifiée (format HHMM).
+        logicalTypeOptions:
+          minimum: 1
+          maximum: 2359
+      - name: arr_delay
+        logicalType: number
+        physicalType: double
+        nullable: true
+        description: Retard à l'arrivée en minutes. Valeur négative = avance.
+      - name: carrier
+        logicalType: string
+        physicalType: varchar(256)
+        nullable: false
+        description: Code IATA à deux lettres de la compagnie aérienne.
+        logicalTypeOptions:
+          pattern: "^[A-Z0-9]{2}$"
+      - name: flight
+        logicalType: integer
+        physicalType: bigint
+        nullable: false
+        description: Numéro de vol.
+        logicalTypeOptions:
+          minimum: 1
+      - name: tailnum
+        logicalType: string
+        physicalType: varchar(256)
+        nullable: true
+        description: Numéro de queue de l'appareil (immatriculation FAA).
+      - name: origin
+        logicalType: string
+        physicalType: varchar(256)
+        nullable: false
+        description: Code IATA de l'aéroport de départ (EWR, JFK ou LGA).
+        logicalTypeOptions:
+          pattern: "^(EWR|JFK|LGA)$"
+      - name: dest
+        logicalType: string
+        physicalType: varchar(256)
+        nullable: false
+        description: Code IATA de l'aéroport d'arrivée.
+        logicalTypeOptions:
+          pattern: "^[A-Z]{3}$"
+      - name: air_time
+        type: number
+        logicalType: number
+        physicalType: double
+        nullable: true
+        description: Durée de vol en minutes.
+        logicalTypeOptions:
+          minimum: 1
+      - name: distance
+        logicalType: integer
+        physicalType: bigint
+        nullable: false
+        description: Distance entre les aéroports en miles.
+        logicalTypeOptions:
+          minimum: 1
+      - name: hour
+        logicalType: integer
+        physicalType: bigint
+        nullable: false
+        description: Heure de départ planifiée (heure).
+        logicalTypeOptions:
+          minimum: 0
+          maximum: 23
+      - name: minute
+        logicalType: integer
+        physicalType: bigint
+        nullable: false
+        description: Heure de départ planifiée (minutes).
+        logicalTypeOptions:
+          minimum: 0
+          maximum: 59
+      - name: time_hour
+        logicalType: timestamp
+        physicalType: timestamp(6)
+        nullable: false
+        description: Date et heure de départ planifiée arrondie à l'heure (UTC).
+      - name: name
+        logicalType: string
+        physicalType: varchar(256)
+        nullable: false
+        description: Nom complet de la compagnie aérienne.
+
+slaProperties:
+  - property: latency
+    value: 1h
+  - property: availability
+    value: 99.9%

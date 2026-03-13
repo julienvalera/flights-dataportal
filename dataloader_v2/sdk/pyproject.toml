@@ -1,0 +1,12 @@
+[project]
+name = "dataloader"
+version = "0.1.0"
+description = "SDK Python pour abstraire la consommation des data products via AWS Glue + Iceberg"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pyiceberg[glue]>=0.7",
+    "boto3>=1.34",
+    "polars>=1.39.0",
+    "matplotlib>=3.10.8",
+]

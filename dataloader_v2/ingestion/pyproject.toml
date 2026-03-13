@@ -1,0 +1,12 @@
+[project]
+name = "ingestion"
+version = "0.1.0"
+description = "Charge flights.csv dans une table Iceberg sur AWS S3/Glue"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pandas>=2.2",
+    "pyarrow>=16.0",
+    "pyiceberg[glue]>=0.7",
+    "boto3>=1.34",
+]

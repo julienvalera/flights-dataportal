@@ -1,0 +1,9 @@
+.venv
+docker-volume/
+docker-compose.yml
+**/.env
+**/datacontract.html
+infra/.terraform/
+infra/terraform.tfstate
+infra/terraform.tfstate.backup
+.claude/
