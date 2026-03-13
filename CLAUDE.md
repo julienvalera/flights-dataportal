@@ -1,4 +1,4 @@
-# CLAUDE.md — cfm-dataportal
+# CLAUDE.md — flights-dataportal
 
 ## A ne JAMAIS lire
 - `docker-volume/` — volume Docker monté, ignoré dans git
