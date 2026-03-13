@@ -26,7 +26,7 @@ Les données de vols NYC 2013 sont stockées dans une table Apache Iceberg sur A
 
 ```shell
 # 1. Déployer l'infra AWS
-cd infra && terraform apply
+cd infra && terraform init && terraform apply
 
 # 2. Charger les données
 cd ingestion && uv run python load_flights.py

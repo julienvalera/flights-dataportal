@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: avg_delay_by_carrier
+    description: "Retards moyens au départ et à l'arrivée par compagnie aérienne, calculés sur les vols de 2013 au départ de New York."
+    columns:
+      - name: carrier
+        description: "Code IATA à deux lettres de la compagnie aérienne."
+        tests:
+          - not_null
+          - unique
+      - name: name
+        description: "Nom complet de la compagnie aérienne."
+        tests:
+          - not_null
+      - name: total_flights
+        description: "Nombre total de vols enregistrés."
+        tests:
+          - not_null
+      - name: non_cancelled_flights
+        description: "Nombre de vols non annulés (dep_delay non null)."
+        tests:
+          - not_null
+      - name: avg_dep_delay_minutes
+        description: "Retard moyen au départ en minutes (vols annulés exclus de la moyenne)."
+      - name: avg_arr_delay_minutes
+        description: "Retard moyen à l'arrivée en minutes (vols annulés exclus de la moyenne)."

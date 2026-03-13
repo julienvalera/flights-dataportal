@@ -101,7 +101,7 @@ schema:
         description: Retard à l'arrivée en minutes. Valeur négative = avance.
       - name: carrier
         logicalType: string
-        physicalType: varchar(256)
+        physicalType: varchar
         nullable: false
         description: Code IATA à deux lettres de la compagnie aérienne.
         logicalTypeOptions:
@@ -115,19 +115,19 @@ schema:
           minimum: 1
       - name: tailnum
         logicalType: string
-        physicalType: varchar(256)
+        physicalType: varchar
         nullable: true
         description: Numéro de queue de l'appareil (immatriculation FAA).
       - name: origin
         logicalType: string
-        physicalType: varchar(256)
+        physicalType: varchar
         nullable: false
         description: Code IATA de l'aéroport de départ (EWR, JFK ou LGA).
         logicalTypeOptions:
           pattern: "^(EWR|JFK|LGA)$"
       - name: dest
         logicalType: string
-        physicalType: varchar(256)
+        physicalType: varchar
         nullable: false
         description: Code IATA de l'aéroport d'arrivée.
         logicalTypeOptions:
@@ -170,7 +170,7 @@ schema:
         description: Date et heure de départ planifiée arrondie à l'heure (UTC).
       - name: name
         logicalType: string
-        physicalType: varchar(256)
+        physicalType: varchar
         nullable: false
         description: Nom complet de la compagnie aérienne.
 

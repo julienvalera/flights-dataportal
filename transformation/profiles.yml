@@ -1,0 +1,12 @@
+cfm_flights:
+  target: dev
+  outputs:
+    dev:
+      type: athena
+      region_name: "{{ env_var('AWS_REGION', 'eu-west-1') }}"
+      s3_staging_dir: "{{ env_var('ATHENA_STAGING_DIR', 's3://cfm-datalake-iceberg/athena-results/') }}"
+      s3_data_dir: "{{ env_var('ATHENA_DATA_DIR', 's3://cfm-datalake-iceberg/dbt/') }}"
+      database: awsdatacatalog
+      schema: flights_db
+      work_group: primary
+      threads: 4

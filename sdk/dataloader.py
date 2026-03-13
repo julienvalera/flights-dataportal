@@ -10,5 +10,4 @@ def get(dataset_id: str):
     )
     table = resp["Table"]
     location = table["Parameters"]["metadata_location"]
-    query = pl.scan_iceberg(location).limit(5)
-    df = query.collect()
+    return pl.scan_iceberg(location)

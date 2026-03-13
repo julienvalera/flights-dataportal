@@ -24,6 +24,7 @@ PoC de standardisation d'accès aux données du domaine via un SDK Python.
 | Stockage | AWS S3 (Iceberg) |
 | Catalogue données | AWS Glue + OpenMetadata |
 | SDK Python | pyiceberg[glue], boto3, polars |
+| Transformations | dbt-core + dbt-athena-community |
 | Infra | Terraform |
 | Package manager | uv (Python 3.13) |
 | Contrats de données | datacontract-cli, ODCS v3.1.0 |
@@ -48,6 +49,16 @@ cfm-dataportal/
 │   ├── pyproject.toml
 │   ├── load-env.sh             # Export des vars pour datacontract-cli → Athena
 │   └── publish_to_openmetadata.py  # Publie le data product dans OM via REST API
+├── transformation/             # Transformations dbt (Athena + Iceberg)
+│   ├── pyproject.toml          # dbt-core + dbt-athena-community
+│   ├── dbt_project.yml         # Config dbt (profil: cfm_flights)
+│   ├── profiles.yml            # Connexion Athena (variables d'env AWS)
+│   └── models/
+│       ├── sources/
+│       │   └── flights_source.yml          # Source: awsdatacatalog.flights_db.flights
+│       └── marts/
+│           ├── avg_delay_by_carrier.sql    # Retards moyens par compagnie (table Iceberg)
+│           └── avg_delay_by_carrier.yml    # Tests + documentation
 └── sdk/                        # SDK Python (futur package PyPI)
     ├── pyproject.toml
     ├── dataloader.py           # SDK Python (fichier principal)
@@ -64,6 +75,7 @@ cfm-dataportal/
 | L'infra AWS | `infra/main.tf`, `infra/variables.tf` |
 | OpenMetadata local | voir Références rapides |
 | Publier dans OpenMetadata | `catalog-sync/publish_to_openmetadata.py`, `odcs-contracts/flights.yaml` |
+| Les transformations dbt | `transformation/models/marts/avg_delay_by_carrier.sql`, `transformation/profiles.yml` |
 
 ## Conventions d'implémentation
 - OpenMetadata : utiliser `requests` directement (pas `openmetadata-ingestion` SDK)
@@ -96,6 +108,13 @@ uv run python load_flights.py
 # SDK (depuis sdk/)
 cd sdk
 uv run python main.py
+
+# Transformations dbt (depuis transformation/)
+cd transformation
+uv sync
+uv run dbt deps
+uv run dbt run --profiles-dir . --select avg_delay_by_carrier
+uv run dbt test --profiles-dir . --select avg_delay_by_carrier
 
 # Terraform (depuis infra/)
 cd infra

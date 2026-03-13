@@ -1,0 +1,25 @@
+version: 2
+
+sources:
+  - name: flights_db
+    description: "Table des vols au départ de New York en 2013 (Iceberg sur S3 via AWS Glue)."
+    database: awsdatacatalog
+    schema: flights_db
+    tables:
+      - name: flights
+        description: "Vols commerciaux au départ de JFK, LGA et EWR en 2013."
+        columns:
+          - name: id
+            description: "Identifiant unique du vol."
+          - name: carrier
+            description: "Code IATA à deux lettres de la compagnie aérienne."
+          - name: name
+            description: "Nom complet de la compagnie aérienne."
+          - name: dep_delay
+            description: "Retard au départ en minutes (null = vol annulé)."
+          - name: arr_delay
+            description: "Retard à l'arrivée en minutes (null = vol annulé)."
+          - name: origin
+            description: "Code IATA de l'aéroport de départ (EWR, JFK, LGA)."
+          - name: dest
+            description: "Code IATA de l'aéroport d'arrivée."

@@ -3,9 +3,8 @@ name = "catalog-sync"
 version = "0.1.0"
 description = "Synchronise les contrats ODCS vers OpenMetadata et valide via datacontract-cli"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = [
     "pyyaml>=6.0",
     "requests>=2.32",
-    "datacontract-cli>=0.10",
 ]

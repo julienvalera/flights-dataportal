@@ -17,8 +17,6 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 ODCS_PATH = Path(__file__).parent.parent / "odcs-contracts" / "flights.yaml"
 OM_BASE = "http://localhost:8585/api/v1"
-OM_EMAIL = "admin@open-metadata.org"
-OM_PASSWORD = "admin"
 
 # Mapping physicalType ODCS → DataType OpenMetadata
 PHYSICAL_TYPE_MAP: dict[str, str] = {
