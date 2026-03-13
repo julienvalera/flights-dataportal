@@ -1,4 +1,4 @@
-# cfm-dataportal
+# flights-dataportal
 
 PoC de standardisation d'accès aux données du domaine via un SDK Python.
 
